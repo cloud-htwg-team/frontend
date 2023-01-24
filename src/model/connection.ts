@@ -1,6 +1,6 @@
 import type {CodeEntry, CodeMetadataShort, User} from "@/model/types";
 
-const baseUrl = "http://qreach.adamradvan.eu"
+const baseUrl = "http://qreach.adamradvan.eu/secure"
 
 
 export class BackendConnection {
@@ -11,8 +11,9 @@ export class BackendConnection {
   }
 
   generateQrCode(toGenerate: string): Promise<string> {
-    return this.processString(fetch(`${baseUrl}/secure/qr-code`, {
+    return this.processString(fetch(`${baseUrl}/qr-code`, {
       method: "POST",
+      headers: [["USER_ID_TOKEN", this.user.idToken]],
       body: JSON.stringify({
         text: toGenerate,
         tenantId: this.user.tenantId,
@@ -35,11 +36,15 @@ export class BackendConnection {
   }
 
   getCode(entryId: string): Promise<string> {
-    return this.processString(fetch(`${baseUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`))
+    return this.processString(fetch(`${baseUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`, {
+      headers: [["USER_ID_TOKEN", this.user.idToken]]
+    }))
   }
 
   private jsonRequest(url: string): Promise<any> {
-    return fetch(url)
+    return fetch(url, {
+      headers: [["USER_ID_TOKEN", this.user.idToken]]
+    })
       .then(response => {
         if (response.ok)
           return response.json()
