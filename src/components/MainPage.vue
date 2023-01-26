@@ -35,10 +35,6 @@ export default {
       currentQrCode: ""
     };
   },
-  setup() {
-    // TODO check login status
-    this.page = 'login'
-  },
   methods: {
     async switchTo(page: PageType) {
       this.page = page

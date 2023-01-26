@@ -19,9 +19,9 @@ export default {
       items: [] as CodeMetadataShort[]
     };
   },
-  setup() {
-    this.gatherEntries()
-        .then(data => {
+  mounted() {
+    this.gatherEntries?.()
+        .then((data: CodeMetadataShort[]) => {
           this.items = data
         })
   },

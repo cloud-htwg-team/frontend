@@ -22,9 +22,9 @@ export default {
   },
   methods: {
     async generate() {
-      this.generateQrCode(this.text)
-          .then(qrCode => {
-            this.processQrCode(qrCode)
+      this.generateQrCode?.(this.text)
+          .then((qrCode: string) => {
+            this.displayQrCode?.(qrCode)
           })
     }
   }

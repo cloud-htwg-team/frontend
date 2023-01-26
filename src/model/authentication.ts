@@ -3,11 +3,11 @@ import type {TenantInformation, User} from "@/model/types";
 const baseUrl = "http://qreach.adamradvan.eu"
 
 export function login(email: string, password: string, tenantId: string): Promise<User>  {
-  performAuthentication("login", email, password, tenantId)
+  return performAuthentication("login", email, password, tenantId)
 }
 
 export function register(email: string, password: string, tenantId: string): Promise<User>  {
-  performAuthentication("sign-up", email, password, tenantId)
+  return performAuthentication("sign-up", email, password, tenantId)
 }
 
 function performAuthentication(endpoint: string, email: string, password: string, tenantId: string): Promise<User> {
@@ -27,11 +27,11 @@ function performAuthentication(endpoint: string, email: string, password: string
   })
 }
 
-export function loadTenants(): Promise<TenantInformation> {
+export function loadTenants(): Promise<TenantInformation[]> {
   return fetch(`${baseUrl}/list-tenants`)
     .then(response => {
       if (response.ok)
-        return response.json() as Promise<TenantInformation>
+        return response.json() as Promise<TenantInformation[]>
       else
         return response.text().then(s => { throw new Error(s) })
     })

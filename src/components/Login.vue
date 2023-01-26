@@ -40,10 +40,10 @@ export default {
       currentTenant: ''
     };
   },
-  setup() {
+  mounted() {
     loadUserData()
         .then(user => {
-          this.processLoginSuccess(user)
+          this.processLoginSuccess?.(user)
         })
     loadTenants()
         .then(tenants => {
@@ -54,13 +54,13 @@ export default {
     async performLogin() {
       login(this.email, this.password, this.currentTenant)
           .then(user => {
-            this.processLoginSuccess(user)
+            this.processLoginSuccess?.(user)
           })
     },
     async performRegistration() {
       register(this.email, this.password, this.currentTenant)
           .then(user => {
-            this.processLoginSuccess(user)
+            this.processLoginSuccess?.(user)
           })
     }
   }
