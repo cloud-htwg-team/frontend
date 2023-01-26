@@ -17,3 +17,8 @@ export interface User {
   tenantId: string
   idToken: string
 }
+
+export interface TenantInformation {
+  displayName: string
+  tenantId: string
+}

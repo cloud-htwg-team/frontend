@@ -1,6 +1,6 @@
 <template>
   <div>
-    Link: <input @input="changeText" value="https://google.de">
+    Link: <input v-model="text">
     <button @click="generate()">Generate</button>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      text: ''
+      text: 'https://google.de'
     };
   },
   methods: {
@@ -26,10 +26,7 @@ export default {
           .then(qrCode => {
             this.processQrCode(qrCode)
           })
-    },
-    changeText(e: any) {
-      this.text = e.target.value
-    },
+    }
   }
 }
 </script>

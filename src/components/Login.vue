@@ -1,8 +1,16 @@
 <template>
   <div>
-    Email: <input @input="changeEmail" value="user@qr-regular.com">
-    Password: <input @input="changePassword" value="user123">
-    <button @click="performLogin()">Login</button>
+    Tenant: <select v-model="currentTenant">
+      <option disabled value="">Select a Tenant</option>
+      <option value="regular-92it7">Test</option>
+      <option v-for="tenant in tenants" :value="tenant.tenantId">{{tenant.displayName}}</option>
+    </select>
+    Email: <input v-model="email">
+    Password: <input v-model="password" type="password">
+    <button v-if="!register" @click="performLogin()">Login</button>
+    <button v-if="!register" @click="() => register = true">Create Account</button>
+    <button v-if="register" @click="performRegistration()">Register</button>
+    <button v-if="register" @click="() => register = false">Login</button>
   </div>
 </template>
 
@@ -10,7 +18,13 @@
 </style>
 
 <script type="module" lang="ts">
-import {loadUserData, login} from "@/model/authentication";
+import {
+  loadTenants,
+  loadUserData,
+  login,
+  register
+} from "@/model/authentication";
+import type {TenantInformation} from "@/model/types";
 
 export default {
   name: 'Login',
@@ -19,8 +33,11 @@ export default {
   },
   data() {
     return {
-      email: '',
-      password: ''
+      email: 'user@qr-regular.com',
+      password: 'user123',
+      register: false,
+      tenants: [] as TenantInformation[],
+      currentTenant: ''
     };
   },
   setup() {
@@ -28,19 +45,23 @@ export default {
         .then(user => {
           this.processLoginSuccess(user)
         })
+    loadTenants()
+        .then(tenants => {
+          this.tenants = tenants
+        })
   },
   methods: {
     async performLogin() {
-      login(this.email, this.password, "regular-92it7") // TODO actual tenantId
+      login(this.email, this.password, this.currentTenant) // TODO actual tenantId
           .then(user => {
             this.processLoginSuccess(user)
           })
     },
-    changeEmail(e: any) {
-      this.email = e.target.value
-    },
-    changePassword(e: any) {
-      this.password = e.target.value
+    async performRegistration() {
+      register(this.email, this.password, this.currentTenant) // TODO actual tenantId
+          .then(user => {
+            this.processLoginSuccess(user)
+          })
     }
   }
 }

@@ -1,11 +1,20 @@
-import type {User} from "@/model/types";
+import type {TenantInformation, User} from "@/model/types";
 
 const baseUrl = "http://qreach.adamradvan.eu"
 
 export function login(email: string, password: string, tenantId: string): Promise<User>  {
-  return fetch(`${baseUrl}/login`, {
+  performAuthentication("login", email, password, tenantId)
+}
+
+export function register(email: string, password: string, tenantId: string): Promise<User>  {
+  performAuthentication("sign-up", email, password, tenantId)
+}
+
+function performAuthentication(endpoint: string, email: string, password: string, tenantId: string): Promise<User> {
+  return fetch(`${baseUrl}/${endpoint}`, {
     method: "POST",
-    body: JSON.stringify({ email, password, tenantId })
+    body: JSON.stringify({ email, password, tenantId }),
+    headers: [["Content-Type", "application/json"]]
   }).then(response => {
     if (response.ok)
       return response.json()
@@ -18,7 +27,17 @@ export function login(email: string, password: string, tenantId: string): Promis
   })
 }
 
-export function loadUserData(): Promise<User>  {
+export function loadTenants(): Promise<TenantInformation> {
+  return fetch(`${baseUrl}/list-tenants`)
+    .then(response => {
+      if (response.ok)
+        return response.json() as Promise<TenantInformation>
+      else
+        return response.text().then(s => { throw new Error(s) })
+    })
+}
+
+export function loadUserData(): Promise<User> {
   const user = loadUser()
   if (!user)
     return Promise.reject()
