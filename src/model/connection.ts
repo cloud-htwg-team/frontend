@@ -13,7 +13,9 @@ export class BackendConnection {
   generateQrCode(toGenerate: string): Promise<string> {
     return this.processString(fetch(`${baseUrl}/qr-code`, {
       method: "POST",
-      headers: [["USER_ID_TOKEN", this.user.idToken]],
+      headers: [
+          ["USER_ID_TOKEN", this.user.idToken],
+          ["Content-Type", "application/json"]],
       body: JSON.stringify({
         text: toGenerate,
         tenantId: this.user.tenantId,
