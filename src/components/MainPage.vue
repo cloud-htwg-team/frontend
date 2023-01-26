@@ -12,7 +12,7 @@ import History from "@/components/History.vue";
     <button @click="switchTo('history-user')">User History</button>
   </div>
   <Login v-if="page === 'login'" :processLoginSuccess="handleLogin"/>
-  <Generator v-if="page === 'generator'" :generateQrCode="s => connection.generateQrCode(s)" :displayQrCode="handleQrCode"/>
+  <Generator v-if="page === 'generator'" :generateQrCode="(s: string) => connection.generateQrCode(s)" :displayQrCode="handleQrCode"/>
   <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
   <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="handleQrCode"/>
   <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="handleQrCode"/>
