@@ -57,7 +57,7 @@ export function saveUser(user: User) {
 }
 
 export function loadUser(): User | undefined {
-  const cookie = document.cookie.split(';').map(s => s.split(':')).filter(s => s[0] === "idToken")[0]
+  const cookie = document.cookie.split(';').map(s => s.split('=')).filter(s => s[0] === "user")[0]
   if (!cookie)
     return undefined
   const userText = cookie[1]
@@ -65,3 +65,4 @@ export function loadUser(): User | undefined {
     return undefined
   return JSON.parse(userText) as User
 }
+
