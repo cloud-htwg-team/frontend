@@ -1,5 +1,5 @@
 <template>
-  <img :src="qrCode">
+  <img :src="`data:image/jpeg;base64,${qrCode}`">
 </template>
 
 <style scoped>
