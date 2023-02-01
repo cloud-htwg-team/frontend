@@ -40,7 +40,8 @@ export function loadTenants(): Promise<TenantInformation[]> {
 export function createTenant(name: string, logo: string, premium: boolean): Promise<string> {
   return fetch(`${baseUrl}/tenants`, {
     method: "POST",
-    body: JSON.stringify({ name, logo, premium })
+    body: JSON.stringify({ name, logo, premium }),
+    headers: [["Content-Type", "application/json"]]
   }).then(response => {
     if (response.ok)
       return response.text()
