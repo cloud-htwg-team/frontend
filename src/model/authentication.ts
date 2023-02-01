@@ -65,7 +65,8 @@ export function loadUserData(): Promise<User> {
     return Promise.reject(new Error("No local user data"))
   return fetch(`${baseUrl}/verify`, {
     method: "POST",
-    headers: [["USER_ID_TOKEN", user.idToken]]
+    headers: [["USER_ID_TOKEN", user.idToken],
+              ["Id-Token",      user.idToken]]
   }).then(response => {
     if (response.ok)
       return user

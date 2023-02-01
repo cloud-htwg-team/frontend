@@ -2,18 +2,25 @@
   <table>
     <tbody>
     <tr>
-      <th>User ID</th>
-      <th>Created At</th>
+      <th class="cell">User ID</th>
+      <th class="cell">Created At</th>
     </tr>
     <tr v-for="item in items" @click="() => view(item.entryId)">
-      <td>{{item.userId}}</td>
-      <td>{{new Date(item.createdAt).toDateString()}}</td>
+      <td class="cell" @click="() => view(item.entryId)">{{item.userId}}</td>
+      <td class="cell" @click="() => view(item.entryId)">{{new Date(item.createdAt).toDateString()}}</td>
     </tr>
     </tbody>
   </table>
 </template>
 
 <style scoped>
+.cell {
+  width: 9.5rem;
+}
+
+.cell:hover {
+  background-color: rgba(255, 255, 255, 0.10);
+}
 </style>
 
 <script type="module" lang="ts">
