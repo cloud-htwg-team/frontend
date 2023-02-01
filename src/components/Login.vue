@@ -6,7 +6,7 @@
         <option disabled value="">Select a Tenant</option>
         <option value="regular-92it7">Test</option>
         <option v-for="tenant in tenants" :value="tenant.tenantId">
-          {{ tenant.displayName }}
+          {{ tenant.name }}
         </option>
       </select></div>
     <div class="form-item">

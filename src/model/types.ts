@@ -19,7 +19,7 @@ export interface User {
 }
 
 export interface TenantInformation {
-  displayName: string
+  name: string
   tenantId: string
 }
 
