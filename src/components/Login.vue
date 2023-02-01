@@ -1,16 +1,14 @@
 <template>
-  <div>
-    Tenant: <select v-model="currentTenant">
+  <div class="form-container">
+    <div class="form-item"><div class="form-label">Tenant:</div><select v-model="currentTenant" class="form-input">
       <option disabled value="">Select a Tenant</option>
       <option value="regular-92it7">Test</option>
       <option v-for="tenant in tenants" :value="tenant.tenantId">{{tenant.displayName}}</option>
-    </select>
-    Email: <input v-model="email">
-    Password: <input v-model="password" type="password">
-    <button v-if="!register" @click="performLogin()">Login</button>
-    <button v-if="!register" @click="() => register = true">Create Account</button>
-    <button v-if="register" @click="performRegistration()">Register</button>
-    <button v-if="register" @click="() => register = false">Login</button>
+    </select></div>
+    <div class="form-item"><div class="form-label">Email:</div><input v-model="email" class="form-input"></div>
+    <div class="form-item"><div class="form-label">Password:</div><input v-model="password" type="password" class="form-input"></div>
+    <button @click="performLogin()" class="form-item form-button">Login</button>
+    <button @click="performRegistration()" class="form-item form-button">Register</button>
   </div>
 </template>
 

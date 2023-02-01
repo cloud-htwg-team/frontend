@@ -7,22 +7,48 @@ import Tenant from "@/components/Tenant.vue";
 </script>
 
 <template>
-  <div>
-    <button @click="switchTo('generator')">Generator</button>
-    <button @click="switchTo('history-tenant')">Tenant History</button>
-    <button @click="switchTo('history-user')">User History</button>
-    <button @click="switchTo('login')">Login</button>
-    <button @click="switchTo('tenant')">Create Tenant</button>
+  <div class="nav-bar">
+    <div v-if="loggedIn" @click="switchTo('generator')" class="nav-item">Generator</div>
+    <div v-if="loggedIn" @click="switchTo('history-tenant')" class="nav-item">Tenant History</div>
+    <div v-if="loggedIn" @click="switchTo('history-user')" class="nav-item">User History</div>
+    <div v-if="!loggedIn" @click="switchTo('login')" class="nav-item">Login</div>
+    <div v-if="!loggedIn" @click="switchTo('tenant')" class="nav-item">Create Tenant</div>
   </div>
-  <Login v-if="page === 'login'" :processLoginSuccess="u => this.handleLogin(u)"/>
-  <Tenant v-if="page === 'tenant'" :createTenant="(name: string, logo: string, premium: boolean) => this.createTenant(name, logo, premium)"/>
-  <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="handleQrCode"/>
-  <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
-  <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="handleQrCode"/>
-  <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="handleQrCode"/>
+  <div class="main-container">
+    <Login v-if="page === 'login'" :processLoginSuccess="u => this.handleLogin(u)"/>
+    <Tenant v-if="page === 'tenant'" :createTenant="(name: string, logo: string, premium: boolean) => this.createTenant(name, logo, premium)"/>
+    <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="handleQrCode"/>
+    <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
+    <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="handleQrCode"/>
+    <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="handleQrCode"/>
+  </div>
 </template>
 
 <style scoped>
+.nav-bar {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.50);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.10);
+}
+
+.main-container {
+  width: 20rem;
+  margin: 1rem auto;
+}
 </style>
 
 <script type="module" lang="ts">
@@ -37,12 +63,14 @@ export default {
       page: 'login' as PageType,
       user: {} as User,
       connection: {} as BackendConnection,
-      currentQrCode: ""
+      currentQrCode: "",
+      loggedIn: false
     };
   },
   methods: {
     async switchTo(page: PageType) {
       this.page = page
+      this.loggedIn = !(page == 'login' || page == 'tenant');
     },
     handleLogin(user: User) {
       this.user = user

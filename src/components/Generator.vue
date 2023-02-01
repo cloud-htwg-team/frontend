@@ -1,7 +1,7 @@
 <template>
-  <div>
-    Link: <input v-model="text">
-    <button @click="generate()">Generate</button>
+  <div class="form-container">
+    <div class="form-item"><div class="form-label">Link:</div><input v-model="text" class="form-input"></div>
+    <button @click="generate()" class="form-item form-button">Generate</button>
   </div>
 </template>
 

@@ -1,13 +1,13 @@
 <template>
-  <div>
-    Tier: <select v-model="premium">
+  <div class="form-container">
+    <div class="form-item"><div class="form-label">Tier:</div><select v-model="premium" class="form-input">
     <option disabled value="">Select a Tier</option>
     <option value="true">Premium</option>
     <option value="false">Basic</option>
-  </select>
-    Name: <input v-model="name">
-    <input ref="file" type="file" @change="() => this.handleFile()"/>
-    <button @click="() => this.handleCreation()">Create Tenant</button>
+  </select></div>
+    <div class="form-item"><div class="form-label">Name:</div><input v-model="name" class="form-input"></div>
+    <input ref="file" type="file" @change="() => this.handleFile()" class="form-item"/>
+    <button @click="() => this.handleCreation()" class="form-item form-button">Create Tenant</button>
   </div>
 </template>
 
