@@ -1,16 +1,13 @@
 <template>
   <div>
-    Tenant: <select v-model="currentTenant">
-      <option disabled value="">Select a Tenant</option>
-      <option value="regular-92it7">Test</option>
-      <option v-for="tenant in tenants" :value="tenant.tenantId">{{tenant.displayName}}</option>
-    </select>
-    Email: <input v-model="email">
-    Password: <input v-model="password" type="password">
-    <button v-if="!register" @click="performLogin()">Login</button>
-    <button v-if="!register" @click="() => register = true">Create Account</button>
-    <button v-if="register" @click="performRegistration()">Register</button>
-    <button v-if="register" @click="() => register = false">Login</button>
+    Tier: <select v-model="premium">
+    <option disabled value="">Select a Tier</option>
+    <option value="true">Premium</option>
+    <option value="false">Basic</option>
+  </select>
+    Name: <input v-model="name">
+    <input ref="file" type="file" @change="() => this.handleFile()"/>
+    <button @click="() => this.handleCreation()">Create Tenant</button>
   </div>
 </template>
 
@@ -18,50 +15,30 @@
 </style>
 
 <script type="module" lang="ts">
-import {
-  loadTenants,
-  loadUserData,
-  login,
-  register
-} from "@/model/authentication";
-import type {TenantInformation} from "@/model/types";
 
 export default {
   name: 'Tenant',
   props: {
-    processLoginSuccess: Function,
+    createTenant: Function,
   },
   data() {
     return {
-      email: 'user@qr-regular.com',
-      password: 'user123',
-      register: false,
-      tenants: [] as TenantInformation[],
-      currentTenant: ''
+      name: '',
+      logo: File,
+      premium: false
     };
   },
-  mounted() {
-    loadUserData()
-        .then(user => {
-          this.processLoginSuccess?.(user)
-        })
-    loadTenants()
-        .then(tenants => {
-          this.tenants = tenants
-        })
-  },
   methods: {
-    async performLogin() {
-      login(this.email, this.password, this.currentTenant)
-          .then(user => {
-            this.processLoginSuccess?.(user)
-          })
+    handleCreation() {
+      const reader = new FileReader();
+      reader.onload = (data) => {
+        const logoContent = data.target.result
+        this.createTenant(this.name, logoContent, this.premium)
+      }
+      reader.readAsDataURL(this.logo)
     },
-    async performRegistration() {
-      register(this.email, this.password, this.currentTenant)
-          .then(user => {
-            this.processLoginSuccess?.(user)
-          })
+    handleFile() {
+      this.logo = this.$refs.file.files[0]
     }
   }
 }
