@@ -5,7 +5,7 @@
       <th>User ID</th>
       <th>Created At</th>
     </tr>
-    <tr v-for="item in items" @click="() => this.view(item.entryId)">
+    <tr v-for="item in items" @click="() => view(item.entryId)">
       <td>{{item.userId}}</td>
       <td>{{new Date(item.createdAt).toDateString()}}</td>
     </tr>
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async view(entryId: string) {
-      this.displayEntry(entryId)
+      this.displayEntry?.(entryId)
     }
   }
 }

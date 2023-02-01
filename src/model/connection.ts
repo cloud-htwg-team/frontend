@@ -18,7 +18,7 @@ export class BackendConnection {
   }
 
   generateQrCode(toGenerate: string): Promise<string> {
-    return this.processString(fetch(`${baseUrl}/qr-code`, {
+    return this.processString(fetch(`${this.baseUrl}/qr-code`, {
       method: "POST",
       headers: [
           ["USER_ID_TOKEN", this.user.idToken],
@@ -33,29 +33,29 @@ export class BackendConnection {
   }
 
   getTenantEntries(): Promise<CodeMetadataShort[]> {
-    return this.jsonRequest(`${secureUrl}/history/tenants/${this.user.tenantId}/entries`) as Promise<CodeMetadataShort[]>
+    return this.jsonRequest(`${this.secureUrl}/history/tenants/${this.user.tenantId}/entries`) as Promise<CodeMetadataShort[]>
   }
 
   getUserEntries(): Promise<CodeMetadataShort[]> {
-    return this.jsonRequest(`${secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries`) as Promise<CodeMetadataShort[]>
+    return this.jsonRequest(`${this.secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries`) as Promise<CodeMetadataShort[]>
   }
 
   getEntry(entryId: string): Promise<CodeEntry> {
-    return this.jsonRequest(`${secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`) as Promise<CodeEntry>
+    return this.jsonRequest(`${this.secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`) as Promise<CodeEntry>
   }
 
   getCode(entryId: string): Promise<string> {
-    return this.processString(fetch(`${secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`, {
+    return this.processString(fetch(`${this.secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`, {
       headers: [["USER_ID_TOKEN", this.user.idToken]]
     }))
   }
 
   getTenantInformation(): Promise<TenantInformationWIthLogo> {
-    return this.jsonRequest(`${baseUrl}/tenants/${this.user.tenantId}`) as Promise<TenantInformationWIthLogo>
+    return this.jsonRequest(`${this.baseUrl}/tenants/${this.user.tenantId}`) as Promise<TenantInformationWIthLogo>
   }
 
   getTenantLogo(): Promise<string> {
-    return this.processString(fetch(`${baseUrl}/tenants/${this.user.tenantId}/logo`, {
+    return this.processString(fetch(`${this.baseUrl}/tenants/${this.user.tenantId}/logo`, {
       headers: [["USER_ID_TOKEN", this.user.idToken]]
     }))
   }

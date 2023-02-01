@@ -9,7 +9,7 @@ export interface CodeMetadataExtended extends CodeMetadataShort {
 }
 
 export interface CodeEntry extends CodeMetadataExtended {
-  qrCode: String
+  qrCode: string
 }
 
 export interface User {

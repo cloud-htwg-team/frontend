@@ -6,8 +6,8 @@
     <option value="false">Basic</option>
   </select></div>
     <div class="form-item"><div class="form-label">Name:</div><input v-model="name" class="form-input"></div>
-    <input ref="file" type="file" @change="() => this.handleFile()" class="form-item"/>
-    <button @click="() => this.handleCreation()" class="form-item form-button">Create Tenant</button>
+    <input ref="file" type="file" @change="() => handleFile()" class="form-item"/>
+    <button @click="() => handleCreation()" class="form-item form-button">Create Tenant</button>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       name: '',
-      logo: File,
+      logo: {} as Blob,
       premium: false
     };
   },
@@ -32,13 +32,14 @@ export default {
     handleCreation() {
       const reader = new FileReader();
       reader.onload = (data) => {
-        const logoContent = data.target.result
-        this.createTenant(this.name, logoContent, this.premium)
+        const logoContent = data.target?.result
+        this.createTenant?.(this.name, logoContent, this.premium)
       }
       reader.readAsDataURL(this.logo)
     },
     handleFile() {
-      this.logo = this.$refs.file.files[0]
+      // @ts-ignore
+      this.logo = this.$refs.file.files[0] as Blob
     }
   }
 }

@@ -15,12 +15,12 @@ import Tenant from "@/components/Tenant.vue";
     <div v-if="!loggedIn" @click="switchTo('tenant')" class="nav-item">Create Tenant</div>
   </div>
   <div class="main-container">
-    <Login v-if="page === 'login'" :processLoginSuccess="u => this.handleLogin(u)"/>
-    <Tenant v-if="page === 'tenant'" :createTenant="(name: string, logo: string, premium: boolean) => this.createTenant(name, logo, premium)"/>
-    <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="() => this.handleQrCode()"/>
+    <Login v-if="page === 'login'" :processLoginSuccess="(user: User) => handleLogin(user)"/>
+    <Tenant v-if="page === 'tenant'" :createTenant="(name: string, logo: string, premium: boolean) => createTenant(name, logo, premium)"/>
+    <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="(qrCode: string) => handleQrCode(qrCode)"/>
     <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
-    <History v-if="page === 'history-tenant'" :gatherEntries="() => this.connection.getTenantEntries()" :displayQrCode="entryId => this.displayEntry(entryId)"/>
-    <History v-if="page === 'history-user'" :gatherEntries="() => this.connection.getUserEntries()" :displayQrCode="entryId => this.displayEntry(entryId)"/>
+    <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="(entryId: string) => displayEntry(entryId)"/>
+    <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="(entryId: string) => displayEntry(entryId)"/>
   </div>
 </template>
 
