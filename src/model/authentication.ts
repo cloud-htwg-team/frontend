@@ -1,6 +1,6 @@
 import type {TenantInformation, User} from "@/model/types";
 
-const baseUrl = "http://qreach.adamradvan.eu"
+const baseUrl = location.href.slice(0, -1)
 
 export function login(email: string, password: string, tenantId: string): Promise<User>  {
   return performAuthentication("login", email, password, tenantId)
@@ -28,7 +28,7 @@ function performAuthentication(endpoint: string, email: string, password: string
 }
 
 export function loadTenants(): Promise<TenantInformation[]> {
-  return fetch(`${baseUrl}/list-tenants`)
+  return fetch(`${baseUrl}/tenants`)
     .then(response => {
       if (response.ok)
         return response.json() as Promise<TenantInformation[]>
@@ -37,10 +37,22 @@ export function loadTenants(): Promise<TenantInformation[]> {
     })
 }
 
+export function createTenant(name: string, logo: string): Promise<string> {
+  return fetch(`${baseUrl}/tenants`, {
+    method: "POST",
+    body: JSON.stringify({ name, logo })
+  }).then(response => {
+    if (response.ok)
+      return response.text()
+    else
+      return response.text().then(s => { throw new Error(s) })
+  })
+}
+
 export function loadUserData(): Promise<User> {
   const user = loadUser()
   if (!user)
-    return Promise.reject()
+    return Promise.reject(new Error("No local user data"))
   return fetch(`"${baseUrl}/verify"`, {
     method: "POST",
     headers: [["USER_ID_TOKEN", user.idToken]]
@@ -48,7 +60,7 @@ export function loadUserData(): Promise<User> {
     if (response.ok)
       return user
     else
-      return Promise.reject()
+      return Promise.reject(new Error("Local user data not accepted"))
   })
 }
 

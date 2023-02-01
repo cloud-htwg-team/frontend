@@ -1,13 +1,13 @@
 import type {CodeEntry, CodeMetadataShort, User} from "@/model/types";
 
-const baseUrl = "http://qreach.adamradvan.eu/secure"
-
 
 export class BackendConnection {
   private readonly user: User
+  private readonly baseUrl: string
 
   constructor(user: User) {
     this.user = user
+    this.baseUrl = `${location.href}/secure`
   }
 
   generateQrCode(toGenerate: string): Promise<string> {
@@ -39,6 +39,12 @@ export class BackendConnection {
 
   getCode(entryId: string): Promise<string> {
     return this.processString(fetch(`${baseUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`, {
+      headers: [["USER_ID_TOKEN", this.user.idToken]]
+    }))
+  }
+
+  getTenantLogo(): Promise<string> {
+    return this.processString(fetch(`${baseUrl}/tenants/${this.user.tenantId}/logo`, {
       headers: [["USER_ID_TOKEN", this.user.idToken]]
     }))
   }

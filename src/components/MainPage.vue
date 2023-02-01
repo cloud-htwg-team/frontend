@@ -11,8 +11,8 @@ import History from "@/components/History.vue";
     <button @click="switchTo('history-tenant')">Tenant History</button>
     <button @click="switchTo('history-user')">User History</button>
   </div>
-  <Login v-if="page === 'login'" :processLoginSuccess="handleLogin"/>
-  <Generator v-if="page === 'generator'" :generateQrCode="(s: string) => connection.generateQrCode(s)" :displayQrCode="handleQrCode"/>
+  <Login v-if="page === 'login'" :processLoginSuccess="u => this.handleLogin(u)"/>
+  <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="handleQrCode"/>
   <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
   <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="handleQrCode"/>
   <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="handleQrCode"/>

@@ -27,7 +27,7 @@ import {
 import type {TenantInformation} from "@/model/types";
 
 export default {
-  name: 'Login',
+  name: 'Tenant',
   props: {
     processLoginSuccess: Function,
   },
@@ -44,7 +44,7 @@ export default {
     loadUserData()
         .then(user => {
           this.processLoginSuccess?.(user)
-        }).catch(e => console.log(e.message))
+        })
     loadTenants()
         .then(tenants => {
           this.tenants = tenants
