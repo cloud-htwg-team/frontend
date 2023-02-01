@@ -49,6 +49,16 @@ export function createTenant(name: string, logo: string, premium: boolean): Prom
   })
 }
 
+export function resolveTenantName(name: string): Promise<TenantInformation> {
+  return fetch(`${baseUrl}/tenants/name/${name}`)
+    .then(response => {
+      if (response.ok)
+        return response.json() as Promise<TenantInformation>
+      else
+        return response.text().then(s => { throw new Error(s) })
+    })
+}
+
 export function loadUserData(): Promise<User> {
   const user = loadUser()
   if (!user)
