@@ -5,9 +5,9 @@
       <th class="cell">User ID</th>
       <th class="cell">Created At</th>
     </tr>
-    <tr v-for="item in items" @click="() => view(item.entryId)">
-      <td class="cell" @click="() => view(item.entryId)">{{item.userId}}</td>
-      <td class="cell" @click="() => view(item.entryId)">{{new Date(item.createdAt).toDateString()}}</td>
+    <tr v-for="item in items" @click="view(item.entryId)">
+      <td class="cell" @click="view(item.entryId)">{{item.userId}}</td>
+      <td class="cell" @click="view(item.entryId)">{{new Date(item.createdAt).toDateString()}}</td>
     </tr>
     </tbody>
   </table>
