@@ -63,7 +63,7 @@ export function loadUserData(): Promise<User> {
   const user = loadUser()
   if (!user)
     return Promise.reject(new Error("No local user data"))
-  return fetch(`"${baseUrl}/verify"`, {
+  return fetch(`${baseUrl}/verify`, {
     method: "POST",
     headers: [["USER_ID_TOKEN", user.idToken]]
   }).then(response => {
@@ -79,7 +79,7 @@ export function saveUser(user: User) {
 }
 
 export function loadUser(): User | undefined {
-  const cookie = document.cookie.split(';').map(s => s.split('=')).filter(s => s[0] === "user")[0]
+  const cookie = document.cookie.split('; ').map(s => s.split('=')).filter(s => s[0] === "user")[0]
   if (!cookie)
     return undefined
   const userText = cookie[1]

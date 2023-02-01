@@ -28,6 +28,10 @@ export default defineConfig({
       '/tenants': {
         target: 'http://qreach.adamradvan.eu/',
         changeOrigin: true,
+      },
+      '/secure': {
+        target: 'http://qreach.adamradvan.eu/',
+        changeOrigin: true,
       }
     }
   }
