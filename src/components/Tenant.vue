@@ -2,8 +2,8 @@
   <div class="form-container">
     <div class="form-item"><div class="form-label">Tier:</div><select v-model="premium" class="form-input">
     <option disabled value="">Select a Tier</option>
-    <option value="true">Premium</option>
-    <option value="false">Basic</option>
+    <option value="p">Premium</option>
+    <option value="b">Basic</option>
   </select></div>
     <div class="form-item"><div class="form-label">Name:</div><input v-model="name" class="form-input"></div>
     <input ref="file" type="file" @change="() => handleFile()" class="form-item"/>
@@ -25,7 +25,7 @@ export default {
     return {
       name: '',
       logo: {} as Blob,
-      premium: false
+      premium: "b"
     };
   },
   methods: {
@@ -34,7 +34,7 @@ export default {
       reader.onload = (data) => {
         const logoContent: string = data.target?.result as string
         const base64 = logoContent.substring(27)
-        this.createTenant?.(this.name, base64, this.premium)
+        this.createTenant?.(this.name, base64, this.premium == "p")
       }
       reader.readAsDataURL(this.logo)
     },
