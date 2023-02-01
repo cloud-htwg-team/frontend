@@ -19,8 +19,8 @@ import Tenant from "@/components/Tenant.vue";
     <Tenant v-if="page === 'tenant'" :createTenant="(name: string, logo: string, premium: boolean) => createTenant(name, logo, premium)"/>
     <Generator v-if="page === 'generator'" :generateQrCode="(toGenerate: string) => connection.generateQrCode(toGenerate)" :displayQrCode="(qrCode: string) => handleQrCode(qrCode)"/>
     <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
-    <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="(entryId: string) => displayEntry(entryId)"/>
-    <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="(entryId: string) => displayEntry(entryId)"/>
+    <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayEntry="(entryId: string) => displayEntry(entryId)"/>
+    <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayEntry="(entryId: string) => displayEntry(entryId)"/>
   </div>
 </template>
 

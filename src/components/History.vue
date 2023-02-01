@@ -5,9 +5,9 @@
       <th class="cell">User ID</th>
       <th class="cell">Created At</th>
     </tr>
-    <tr v-for="item in items" @click="view(item.entryId)">
-      <td class="cell" @click="view(item.entryId)">{{item.userId}}</td>
-      <td class="cell" @click="view(item.entryId)">{{new Date(item.createdAt).toDateString()}}</td>
+    <tr class="cell-clickable" v-for="item in items" @click="view(item.entryId)">
+      <td class="cell">{{item.userId}}</td>
+      <td class="cell">{{new Date(item.createdAt * 1000).toDateString()}}</td>
     </tr>
     </tbody>
   </table>
@@ -16,9 +16,15 @@
 <style scoped>
 .cell {
   width: 9.5rem;
+  max-width: 9.5rem;
+  overflow-x: hidden;
 }
 
-.cell:hover {
+.cell-clickable {
+  cursor: pointer;
+}
+
+.cell-clickable:hover {
   background-color: rgba(255, 255, 255, 0.10);
 }
 </style>
