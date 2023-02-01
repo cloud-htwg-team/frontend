@@ -17,10 +17,10 @@ import Tenant from "@/components/Tenant.vue";
   <div class="main-container">
     <Login v-if="page === 'login'" :processLoginSuccess="u => this.handleLogin(u)"/>
     <Tenant v-if="page === 'tenant'" :createTenant="(name: string, logo: string, premium: boolean) => this.createTenant(name, logo, premium)"/>
-    <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="handleQrCode"/>
+    <Generator v-if="page === 'generator'" :generateQrCode="connection.generateQrCode" :displayQrCode="() => this.handleQrCode()"/>
     <Viewer v-if="page === 'viewer'" :qrCode="currentQrCode"/>
-    <History v-if="page === 'history-tenant'" :gatherEntries="() => connection.getTenantEntries()" :displayQrCode="handleQrCode"/>
-    <History v-if="page === 'history-user'" :gatherEntries="() => connection.getUserEntries()" :displayQrCode="handleQrCode"/>
+    <History v-if="page === 'history-tenant'" :gatherEntries="() => this.connection.getTenantEntries()" :displayQrCode="entryId => this.displayEntry(entryId)"/>
+    <History v-if="page === 'history-user'" :gatherEntries="() => this.connection.getUserEntries()" :displayQrCode="entryId => this.displayEntry(entryId)"/>
   </div>
 </template>
 
@@ -80,6 +80,12 @@ export default {
     handleQrCode(code: string) {
       this.currentQrCode = code
       this.switchTo('viewer')
+    },
+    displayEntry(entryId: string) {
+      this.connection.getEntry(entryId)
+          .then(entry => {
+            this.handleQrCode(entry.qrCode)
+          })
     },
     createTenant(name: string, logo: string, premium: boolean) {
       createTenant(name, logo, premium)

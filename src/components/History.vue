@@ -1,5 +1,16 @@
 <template>
-  <b-table striped hover :items="items"></b-table>
+  <table>
+    <tbody>
+    <tr>
+      <th>User ID</th>
+      <th>Created At</th>
+    </tr>
+    <tr v-for="item in items" @click="() => this.view(item.entryId)">
+      <td>{{item.userId}}</td>
+      <td>{{new Date(item.createdAt).toDateString()}}</td>
+    </tr>
+    </tbody>
+  </table>
 </template>
 
 <style scoped>
@@ -12,7 +23,7 @@ export default {
   name: 'History',
   props: {
     gatherEntries: Function,
-    displayQrCode: Function
+    displayEntry: Function
   },
   data() {
     return {
@@ -26,7 +37,8 @@ export default {
         })
   },
   methods: {
-    async login() {
+    async view(entryId: string) {
+      this.displayEntry(entryId)
     }
   }
 }
