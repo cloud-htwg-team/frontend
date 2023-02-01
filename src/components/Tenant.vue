@@ -32,8 +32,9 @@ export default {
     handleCreation() {
       const reader = new FileReader();
       reader.onload = (data) => {
-        const logoContent = data.target?.result
-        this.createTenant?.(this.name, logoContent, this.premium)
+        const logoContent: string = data.target?.result
+        const base64 = logoContent.substring(27)
+        this.createTenant?.(this.name, base64, this.premium)
       }
       reader.readAsDataURL(this.logo)
     },
