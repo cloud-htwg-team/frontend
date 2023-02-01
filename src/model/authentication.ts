@@ -37,10 +37,10 @@ export function loadTenants(): Promise<TenantInformation[]> {
     })
 }
 
-export function createTenant(name: string, logo: string): Promise<string> {
+export function createTenant(name: string, logo: string, premium: boolean): Promise<string> {
   return fetch(`${baseUrl}/tenants`, {
     method: "POST",
-    body: JSON.stringify({ name, logo })
+    body: JSON.stringify({ name, logo, premium })
   }).then(response => {
     if (response.ok)
       return response.text()

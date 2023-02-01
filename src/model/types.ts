@@ -22,3 +22,7 @@ export interface TenantInformation {
   displayName: string
   tenantId: string
 }
+
+export interface TenantInformationWIthLogo extends TenantInformation{
+  logo: string
+}

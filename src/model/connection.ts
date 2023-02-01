@@ -1,13 +1,20 @@
-import type {CodeEntry, CodeMetadataShort, User} from "@/model/types";
+import type {
+  CodeEntry,
+  CodeMetadataShort,
+  TenantInformationWIthLogo,
+  User
+} from "@/model/types";
 
 
 export class BackendConnection {
   private readonly user: User
+  private readonly secureUrl: string
   private readonly baseUrl: string
 
   constructor(user: User) {
     this.user = user
-    this.baseUrl = `${location.href}/secure`
+    this.secureUrl = `${location.href}secure`
+    this.baseUrl = location.href
   }
 
   generateQrCode(toGenerate: string): Promise<string> {
@@ -26,21 +33,25 @@ export class BackendConnection {
   }
 
   getTenantEntries(): Promise<CodeMetadataShort[]> {
-    return this.jsonRequest(`${baseUrl}/history/tenants/${this.user.tenantId}/entries`) as Promise<CodeMetadataShort[]>
+    return this.jsonRequest(`${secureUrl}/history/tenants/${this.user.tenantId}/entries`) as Promise<CodeMetadataShort[]>
   }
 
   getUserEntries(): Promise<CodeMetadataShort[]> {
-    return this.jsonRequest(`${baseUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries`) as Promise<CodeMetadataShort[]>
+    return this.jsonRequest(`${secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries`) as Promise<CodeMetadataShort[]>
   }
 
   getEntry(entryId: string): Promise<CodeEntry> {
-    return this.jsonRequest(`${baseUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`) as Promise<CodeEntry>
+    return this.jsonRequest(`${secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`) as Promise<CodeEntry>
   }
 
   getCode(entryId: string): Promise<string> {
-    return this.processString(fetch(`${baseUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`, {
+    return this.processString(fetch(`${secureUrl}/history/tenants/${this.user.tenantId}/users/${this.user.userId}/entries/${entryId}`, {
       headers: [["USER_ID_TOKEN", this.user.idToken]]
     }))
+  }
+
+  getTenantInformation(): Promise<TenantInformationWIthLogo> {
+    return this.jsonRequest(`${baseUrl}/tenants/${this.user.tenantId}`) as Promise<TenantInformationWIthLogo>
   }
 
   getTenantLogo(): Promise<string> {
