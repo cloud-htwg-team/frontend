@@ -33,14 +33,13 @@ export default {
       const reader = new FileReader();
       reader.onload = (data) => {
         const logoContent: string = data.target?.result as string
-        const base64 = logoContent.substring(27)
-        this.createTenant?.(this.name, base64, this.premium == "p")
+        this.createTenant?.(this.name, logoContent, this.premium == "p")
       }
       reader.readAsDataURL(this.logo)
     },
     handleFile() {
-      // @ts-ignore
-      this.logo = this.$refs.file.files[0] as Blob
+      //@ts-ignore
+      this.logo = document.getElementById("file").files[0] as Blob
     }
   }
 }
