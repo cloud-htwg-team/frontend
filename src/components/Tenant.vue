@@ -6,7 +6,7 @@
     <option value="b">Basic</option>
   </select></div>
     <div class="form-item"><div class="form-label">Name:</div><input v-model="name" class="form-input"></div>
-    <input ref="file" type="file" @change="() => handleFile()" class="form-item"/>
+    <input id="file" ref="file" type="file" @change="() => handleFile()" class="form-item"/>
     <button @click="() => handleCreation()" class="form-item form-button">Create Tenant</button>
   </div>
 </template>
